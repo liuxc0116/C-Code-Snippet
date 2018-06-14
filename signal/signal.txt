@@ -67,3 +67,5 @@ Linux支持的信号列表如下，运行命令 kill -l 我们可以看到Linux�
 默认会导致进程停止的信号有：SIGSTOP, SIGTSTP, SIGTTIN, SIGTTOU
 
 默认进程忽略的信号有：SIGCHLD, SIGPWR, SIGURG, SIGWINCH
+
+From: https://blog.csdn.net/thanksgining/article/details/41824475

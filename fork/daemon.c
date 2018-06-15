@@ -75,15 +75,12 @@ int init_daemon()
     return 0;
 }
 
-
 int main(int argc, char *argv[])
 {
-    time_t now;
     init_daemon();
-    while(1) {
-        sleep(5);
-        time(&now);
-        syslog(LOG_USER|LOG_INFO, "SystemTime: \t%s\t\t\n", ctime(&now));
+    while (1) {
+        sleep(10);
+        syslog(LOG_USER|LOG_INFO, "I am still alive");
     }
     return 0;
 }

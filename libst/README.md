@@ -1,7 +1,7 @@
 
-# ubuntu下默认编译不使用epoll的问题
+## ubuntu下默认编译不使用epoll的问题
 st-1.9/Makefile 中检测使用使用epoll.h的代码段如下:
-```
+```c
 ifeq ($(shell test -f /usr/include/sys/epoll.h && echo yes), yes)
 DEFINES     += -DMD_HAVE_EPOLL
 endif

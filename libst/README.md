@@ -49,6 +49,7 @@ int main()
     }
     //stx_dns_getaddr(host, &addrs[0], 10 * 1000)
     //printf("%-40s %s\n", (char *)host, inet_ntoa(addrs[0]));
+    return 0;
 }
 ```
 

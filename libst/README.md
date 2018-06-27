@@ -7,12 +7,16 @@ DEFINES     += -DMD_HAVE_EPOLL
 endif
 ```
 而Ubuntu的epoll.h头文件的路径一般在`/usr/include/x86_64-linux-gnu/sys/epoll.h`
+
 所以，如果支持epoll的系统, epoll.h的位置不在`/usr/include/sys/epoll.h`的话。
+
 编译时需要显示指定使用epoll
+
 `make linux-debug EXTRA_CFLAGS="-DMD_HAVE_EPOLL"`
 
 
 以下是Tst库原有的README文件内容
+```
 WELCOME!
 
 The State Threads Library is a small application library which provides
@@ -407,3 +411,4 @@ COPYRIGHTS
 
 Portions created by SGI are Copyright (C) 2000 Silicon Graphics, Inc.
 All Rights Reserved.
+```

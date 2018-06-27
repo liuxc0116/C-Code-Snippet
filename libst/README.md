@@ -14,6 +14,41 @@ endif
 
 `make linux-debug EXTRA_CFLAGS="-DMD_HAVE_EPOLL"`
 
+## 域名解析问题
+st库提供了域名解析的函数，只是没有默认编译。编译带域名解析库的步骤如下：
+1. 编译st库
+2. 进入`extensions`文件夹,执行`make`,就会在obj目录下生成`obj/libstx.a`
+
+```
+int stx_dns_cache_init(size_t max_size, size_t max_bytes, size_t hash_size);//初始化缓存
+void stx_dns_cache_getinfo(stx_cache_info_t *info);//获得缓存信息
+int stx_dns_getaddrlist(const char *hostname, struct in_addr *addrs, int *num_addrs, st_utime_t timeout);//得到num_addrs个解析到的IP， 存储在addrs指定的数组里（如果num_addrs大于实际解析到的IP，返回实际解析到的IP）
+int stx_dns_getaddr(const char *hostname, struct in_addr *addr, st_utime_t timeout);//得到解析的第一个IP，存储在addrs指定的数组里
+```
+使用如下：
+```c
+#include "st.h"
+#include "stx.h"
+...
+
+#define MAX_ADDRS 20
+int main()
+{
+    struct in_addr addrs[MAX_ADDRS];
+    int naddr = MAX_ADDRS, i;
+    st_init();
+    stx_dns_cache_init(100, 10000, 101);
+    stx_dns_getaddrlist("www.baidu.com", addrs, &naddr, 10 * 1000);
+    if (naddr > 0) {
+       printf("%-40s %s\n", (char *)host, inet_ntoa(addrs[0]));
+    }
+    for (i = 1; i < naddr; i++) {
+        printf("%-40s %s\n", "", inet_ntoa(addrs[i]));
+    }
+    //stx_dns_getaddr("www.baidu.com", &addrs[0], 10 * 1000)
+    //printf("%-40s %s\n", (char *)host, inet_ntoa(addrs[0]));
+}
+```
 
 ## 以下是st库原有的README文件内容
 ```
@@ -412,3 +447,4 @@ COPYRIGHTS
 Portions created by SGI are Copyright (C) 2000 Silicon Graphics, Inc.
 All Rights Reserved.
 ```
+

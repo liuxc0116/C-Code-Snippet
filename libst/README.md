@@ -53,6 +53,8 @@ int main()
 }
 ```
 
+## 本版本的st库，添加了默认编译stx
+
 ## 以下是st库原有的README文件内容
 ```
 WELCOME!

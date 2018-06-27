@@ -18,7 +18,8 @@ endif
 st库提供了域名解析的函数，只是没有默认编译。编译带域名解析库的步骤如下：
 1. 编译st库
 2. 进入`extensions`文件夹,执行`make`,就会在obj目录下生成`obj/libstx.a`
-主要有线面4个函数：
+
+主要有下面4个函数：
 ```c
 int stx_dns_cache_init(size_t max_size, size_t max_bytes, size_t hash_size);//初始化缓存
 void stx_dns_cache_getinfo(stx_cache_info_t *info);//获得缓存信息
@@ -36,16 +37,17 @@ int main()
 {
     struct in_addr addrs[MAX_ADDRS];
     int naddr = MAX_ADDRS, i;
+    const char *host = "www.baidu.com";
     st_init();
     stx_dns_cache_init(100, 10000, 101);
-    stx_dns_getaddrlist("www.baidu.com", addrs, &naddr, 10 * 1000);
+    stx_dns_getaddrlist(host, addrs, &naddr, 10 * 1000);
     if (naddr > 0) {
        printf("%-40s %s\n", (char *)host, inet_ntoa(addrs[0]));
     }
     for (i = 1; i < naddr; i++) {
         printf("%-40s %s\n", "", inet_ntoa(addrs[i]));
     }
-    //stx_dns_getaddr("www.baidu.com", &addrs[0], 10 * 1000)
+    //stx_dns_getaddr(host, &addrs[0], 10 * 1000)
     //printf("%-40s %s\n", (char *)host, inet_ntoa(addrs[0]));
 }
 ```

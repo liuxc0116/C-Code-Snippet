@@ -1,4 +1,4 @@
-#
+
 # Portions created by SGI are Copyright (C) 2000 Silicon Graphics, Inc.
 # All Rights Reserved.
 #
@@ -42,13 +42,15 @@ CFLAGS      =
 
 OBJDIR      = $(DEPTH)/$(TARGETDIR)
 INCDIR      = $(DEPTH)/$(TARGETDIR)
+LIBST      = $(OBJDIR)/libst.a
+LIBSTX      = $(OBJDIR)/libstx.a
+HEADER      = $(INCDIR)/stx.h
 
 LIBRESOLV   =
 EXTRALIBS   =
 
-SLIBRARY    = $(OBJDIR)/libstx.a
-OBJS        = $(OBJDIR)/dnscache.o $(OBJDIR)/dnsres.o $(OBJDIR)/lrucache.o
-
+EXAMPLES    = $(OBJDIR)/testdns
+OBJS        = $(OBJDIR)/dnscache.o $(OBJDIR)/dnsres.o $(OBJDIR)/lrucache.o $(OBJDIR)/testdns.o
 
 CFLAGS      += -Wall -I$(INCDIR)
 AR          = ar
@@ -74,17 +76,23 @@ endif
 ##########################
 
 
-all: $(SLIBRARY)
+all: $(EXAMPLES)
 
-$(SLIBRARY): $(OBJS)
+$(EXAMPLES): testdns.c $(LIBSTX) $(HEADER)
+	$(CC) $(CFLAGS) -I$(INCDIR) testdns.c $(LIBST) $(LIBSTX) $(LIBRESOLV) $(EXTRALIBS) -o $@
+
+$(LIBSTX): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $(OBJS)
 	$(RANLIB) $@
 
 $(OBJDIR)/%.o: %.c stx.h common.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(INCDIR) -c $< -o $@
+
+$(HEADER):
+	cp stx.h $@
 
 clean:
-	rm -rf $(OBJS) $(SLIBRARY)
+	rm -rf $(OBJS) $(LIBSTX)
 
 #.DEFAULT:
 #	@cd $(DEPTH); $(MAKE) $@

@@ -296,6 +296,7 @@ HEADER      = $(TARGETDIR)/st.h
 SLIBRARY    = $(TARGETDIR)/libst.a
 DLIBRARY    = $(TARGETDIR)/libst.$(DSO_SUFFIX).$(VERSION)
 EXAMPLES    = examples
+EXTENSION   = extensions
 
 LINKNAME    = libst.$(DSO_SUFFIX)
 SONAME      = libst.$(DSO_SUFFIX).$(MAJOR)
@@ -325,7 +326,7 @@ endif
 ifeq ($(OS),)
 ST_ALL      = unknown
 else
-ST_ALL      = $(TARGETDIR) $(LIBRARIES) $(HEADER) $(EXAMPLES) $(DESC)
+ST_ALL      = $(TARGETDIR) $(LIBRARIES) $(HEADER) $(EXAMPLES) $(EXTENSION) $(DESC)
 endif
 
 all: $(ST_ALL)
@@ -368,6 +369,10 @@ $(TARGETDIR)/%.o: %.c common.h md.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 examples::
+	@echo Making $@
+	@cd $@; $(MAKE) CC="$(CC)" CFLAGS="$(CFLAGS)" OS="$(OS)" TARGETDIR="$(TARGETDIR)"
+
+extensions::
 	@echo Making $@
 	@cd $@; $(MAKE) CC="$(CC)" CFLAGS="$(CFLAGS)" OS="$(OS)" TARGETDIR="$(TARGETDIR)"
 

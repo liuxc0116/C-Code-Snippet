@@ -1,12 +1,12 @@
 
-## ubuntu下默认编译不使用epoll的问题
-st-1.9/Makefile 中检测使用使用epoll.h的代码段如下:
-```c
+## ubuntu下默认编译st(make linux-debug), 系统检测不到epoll的问题
+Makefile中检测使用epoll.h的代码段如下:
+```bash
 ifeq ($(shell test -f /usr/include/sys/epoll.h && echo yes), yes)
 DEFINES     += -DMD_HAVE_EPOLL
 endif
 ```
-而Ubuntu的epoll.h头文件的路径一般在`/usr/include/x86_64-linux-gnu/sys/epoll.h`
+而ubuntu的epoll.h头文件的路径一般在`/usr/include/x86_64-linux-gnu/sys/epoll.h`
 
 所以，如果支持epoll的系统, epoll.h的位置不在`/usr/include/sys/epoll.h`的话。
 
@@ -15,7 +15,7 @@ endif
 `make linux-debug EXTRA_CFLAGS="-DMD_HAVE_EPOLL"`
 
 
-以下是Tst库原有的README文件内容
+## 以下是st库原有的README文件内容
 ```
 WELCOME!
 
